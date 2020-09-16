@@ -34,6 +34,26 @@ const tests = async () => {
       },
     })
   );
+
+  // Nested filters
+  expectError(
+    await app.models.User.find({
+      where: {
+        age: {
+          neq: 'hello',
+        },
+      },
+    })
+  );
+  expectType<UserEntity[]>(
+    await app.models.User.find({
+      where: {
+        age: {
+          neq: 20,
+        },
+      },
+    })
+  );
 };
 
 export default tests;
