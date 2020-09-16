@@ -1,0 +1,13 @@
+{
+  "name": "journey-through-typing-loopback",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "tsd typings"
+  },
+  "devDependencies": {
+    "tsd": "0.13.1",
+    "typescript": "4.0.2"
+  }
+}
