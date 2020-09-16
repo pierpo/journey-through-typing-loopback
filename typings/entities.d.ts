@@ -1,4 +1,4 @@
-import { LoopbackModel } from '.';
+import { LoopbackInstance, LoopbackModel } from '.';
 
 /* User */
 
@@ -9,6 +9,8 @@ export interface UserEntity {
 
 export interface UserModel extends LoopbackModel<UserEntity> {}
 
+export type UserInstance = LoopbackInstance<UserEntity>;
+
 /* Vehicles */
 
 export interface VehicleEntity {
@@ -16,3 +18,5 @@ export interface VehicleEntity {
 }
 
 export interface VehicleModel extends LoopbackModel<VehicleEntity> {}
+
+export type VehicleInstance = LoopbackInstance<VehicleEntity>;
