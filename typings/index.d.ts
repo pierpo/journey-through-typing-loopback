@@ -7,7 +7,15 @@ export interface VehicleEntity {
   licencePlate: string;
 }
 
-type WhereClause<TEntity> = Partial<TEntity>;
+interface NeqQueryOperator<TFieldType> {
+  neq: TFieldType;
+}
+
+type WhereQueryArgument<TFieldType> = TFieldType | NeqQueryOperator<TFieldType>;
+
+type WhereClause<TEntity> = {
+  [field in keyof TEntity]?: WhereQueryArgument<TEntity[field]>;
+};
 
 interface QueryFilter<TEntity> {
   where: WhereClause<TEntity>;
