@@ -50,6 +50,25 @@ const tests = async () => {
       },
     })
   );
+
+  expectError(
+    await app.models.User.find({
+      where: {
+        age: {
+          inq: 'hello',
+        },
+      },
+    })
+  );
+  expectType<UserEntity[]>(
+    await app.models.User.find({
+      where: {
+        age: {
+          inq: [20, 10],
+        },
+      },
+    })
+  );
 };
 
 export default tests;
