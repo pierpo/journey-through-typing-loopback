@@ -1,4 +1,4 @@
-import { expectType } from 'tsd';
+import { expectError, expectType } from 'tsd';
 import Loopback, {
   UserEntity,
   UserModel,
@@ -18,6 +18,22 @@ const tests = async () => {
   const vehicles = await app.models.Vehicle.find();
   expectType<VehicleModel>(app.models.Vehicle);
   expectType<VehicleEntity[]>(vehicles);
+
+  // Simple filters
+  expectError(
+    await app.models.User.find({
+      where: {
+        age: 'oops not a number',
+      },
+    })
+  );
+  expectType<UserEntity[]>(
+    await app.models.User.find({
+      where: {
+        age: 20,
+      },
+    })
+  );
 };
 
 export default tests;
