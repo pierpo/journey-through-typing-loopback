@@ -6,10 +6,13 @@ export interface UserEntity {
 export interface VehicleEntity {
   licencePlate: string;
 }
+
+type WhereClause<TEntity> = {
+  [field in keyof TEntity]?: TEntity[field];
+};
+
 interface QueryFilter<TEntity> {
-  where: {
-    [field in keyof TEntity]?: TEntity[field];
-  };
+  where: WhereClause<TEntity>;
 }
 
 interface LoopbackModel<TEntity> {
