@@ -7,8 +7,14 @@ export interface VehicleEntity {
   licencePlate: string;
 }
 
+type WhereClause<TEntity> = Partial<TEntity>;
+
+interface QueryFilter<TEntity> {
+  where: WhereClause<TEntity>;
+}
+
 interface LoopbackModel<TEntity> {
-  find(): Promise<TEntity[]>;
+  find(filter?: QueryFilter<TEntity>): Promise<TEntity[]>;
 }
 
 export interface UserModel extends LoopbackModel<UserEntity> {}
