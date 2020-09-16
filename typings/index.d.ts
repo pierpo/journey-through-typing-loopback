@@ -1,33 +1,9 @@
-export interface UserEntity {
-  name: string;
-  age: number;
-}
+import { UserModel, VehicleModel } from './entities';
+import { QueryFilter } from './query';
 
-export interface VehicleEntity {
-  licencePlate: string;
-}
-
-interface NeqQueryOperator<TFieldType> {
-  neq: TFieldType;
-}
-
-type WhereQueryArgument<TFieldType> = TFieldType | NeqQueryOperator<TFieldType>;
-
-type WhereClause<TEntity> = {
-  [field in keyof TEntity]?: WhereQueryArgument<TEntity[field]>;
-};
-
-interface QueryFilter<TEntity> {
-  where: WhereClause<TEntity>;
-}
-
-interface LoopbackModel<TEntity> {
+export interface LoopbackModel<TEntity> {
   find(filter?: QueryFilter<TEntity>): Promise<TEntity[]>;
 }
-
-export interface UserModel extends LoopbackModel<UserEntity> {}
-
-export interface VehicleModel extends LoopbackModel<VehicleEntity> {}
 
 declare class Loopback {
   models: {

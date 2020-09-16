@@ -1,10 +1,6 @@
 import { expectError, expectType } from 'tsd';
-import Loopback, {
-  UserEntity,
-  UserModel,
-  VehicleEntity,
-  VehicleModel,
-} from '.';
+import Loopback from '.';
+import { UserModel, UserEntity, VehicleModel, VehicleEntity } from './entities';
 
 const app = new Loopback();
 
