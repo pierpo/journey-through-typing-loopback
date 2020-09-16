@@ -7,13 +7,13 @@ export interface VehicleEntity {
   licencePlate: string;
 }
 
-export interface UserModel {
-  find(): Promise<UserEntity[]>;
+interface LoopbackModel<TEntity> {
+  find(): Promise<TEntity[]>;
 }
 
-export interface VehicleModel {
-  find(): Promise<VehicleEntity[]>;
-}
+export interface UserModel extends LoopbackModel<UserEntity> {}
+
+export interface VehicleModel extends LoopbackModel<VehicleEntity> {}
 
 declare class Loopback {
   models: {
