@@ -6,9 +6,14 @@ export interface UserEntity {
 export interface VehicleEntity {
   licencePlate: string;
 }
+interface QueryFilter<TEntity> {
+  where: {
+    [field in keyof TEntity]?: TEntity[field];
+  };
+}
 
 interface LoopbackModel<TEntity> {
-  find(): Promise<TEntity[]>;
+  find(filter?: QueryFilter<TEntity>): Promise<TEntity[]>;
 }
 
 export interface UserModel extends LoopbackModel<UserEntity> {}
