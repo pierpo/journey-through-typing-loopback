@@ -1,6 +1,6 @@
 import { expectError, expectType } from 'tsd';
 import Loopback from '.';
-import { UserModel, UserEntity, VehicleModel, VehicleEntity } from './entities';
+import { UserModel, VehicleModel, VehicleInstance, UserInstance } from './entities';
 
 const app = new Loopback();
 
@@ -8,12 +8,12 @@ const tests = async () => {
   // Users
   const users = await app.models.User.find();
   expectType<UserModel>(app.models.User);
-  expectType<UserEntity[]>(users);
+  expectType<UserInstance[]>(users);
 
   // Vehicles
   const vehicles = await app.models.Vehicle.find();
   expectType<VehicleModel>(app.models.Vehicle);
-  expectType<VehicleEntity[]>(vehicles);
+  expectType<VehicleInstance[]>(vehicles);
 
   // Simple filters
   expectError(
@@ -30,7 +30,7 @@ const tests = async () => {
       },
     })
   );
-  expectType<UserEntity[]>(
+  expectType<UserInstance[]>(
     await app.models.User.find({
       where: {
         age: 20,
@@ -48,7 +48,7 @@ const tests = async () => {
       },
     })
   );
-  expectType<UserEntity[]>(
+  expectType<UserInstance[]>(
     await app.models.User.find({
       where: {
         age: {
@@ -67,7 +67,7 @@ const tests = async () => {
       },
     })
   );
-  expectType<UserEntity[]>(
+  expectType<UserInstance[]>(
     await app.models.User.find({
       where: {
         age: {
@@ -76,6 +76,16 @@ const tests = async () => {
       },
     })
   );
+
+  // Instance methods
+  const user = await app.models.User.findOne();
+  expectType<UserInstance>(user);
+  expectType<string>(user.name);
+
+  // Update instance method
+  user.update({ age: 33 });
+  user.update({ age: 33, name: 'hello' });
+  expectError(user.update({ age: 'oh no', name: 'hello' }));
 };
 
 export default tests;
