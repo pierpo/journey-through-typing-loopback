@@ -94,7 +94,9 @@ const tests = async () => {
   expectError(user.update({ age: 'oh no', name: 'hello' }));
 
   // Relations
-  const userWithVehicles = await app.models.User.findOne();
+  const userWithVehicles = await app.models.User.findOne({
+    include: 'vehicles',
+  });
   expectType<VehicleEntity>(userWithVehicles.vehicles[0]);
   expectType<string>(userWithVehicles.vehicles[0].licencePlate);
 };
