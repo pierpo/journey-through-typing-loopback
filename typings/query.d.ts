@@ -15,7 +15,7 @@ type WhereClause<TEntity> = {
   [field in keyof TEntity]?: WhereQueryArgument<TEntity[field]>;
 };
 
-export interface QueryFilter<TEntity> {
+export interface QueryFilter<TEntity, TEntityRelations> {
   where?: WhereClause<TEntity>;
-  include?: keyof TEntity;
+  include?: keyof TEntityRelations;
 }
