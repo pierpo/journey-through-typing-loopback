@@ -131,6 +131,11 @@ const tests = async () => {
   expectType<string>(userWithVehiclesAndBookings.bookings[0].id);
 
   expectError(userWithVehicles.bookings[0].id);
+
+  // Declaring remote methods - no parameters but proper name
+  app.models.User.addVehicle = (licencePlate: string, age: number) => {};
+  app.models.User.remoteMethod('addVehicle');
+  expectError(app.models.User.remoteMethod('addVehicleWithTypo'));
 };
 
 export default tests;
