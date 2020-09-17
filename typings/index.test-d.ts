@@ -105,6 +105,12 @@ const tests = async () => {
       include: 'blablabla',
     })
   );
+
+  expectError(
+    await app.models.User.findOne({
+      include: 'name',
+    })
+  );
 };
 
 export default tests;
