@@ -11,9 +11,13 @@ export interface UserEntityWithRelations {
   vehicles: VehicleEntity[];
   bookings: BookingEntity[];
 }
+export type UserRemoteMethods = {
+  addVehicle(licencePlate: string, age: number): void;
+};
 
 export interface UserModel
-  extends LoopbackModel<UserEntity, UserEntityWithRelations> {}
+  extends LoopbackModel<UserEntity, UserEntityWithRelations, UserRemoteMethods>,
+    UserRemoteMethods {}
 
 export type UserInstance<
   R extends keyof UserEntityWithRelations | null = null
