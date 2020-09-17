@@ -1,6 +1,12 @@
 import { expectError, expectType } from 'tsd';
 import Loopback from '.';
-import { UserModel, VehicleModel, VehicleInstance, UserInstance } from './entities';
+import {
+  UserModel,
+  VehicleModel,
+  VehicleInstance,
+  UserInstance,
+  VehicleEntity,
+} from './entities';
 
 const app = new Loopback();
 
@@ -78,6 +84,11 @@ const tests = async () => {
   user.update({ age: 33 });
   user.update({ age: 33, name: 'hello' });
   expectError(user.update({ age: 'oh no', name: 'hello' }));
+
+  // Relations
+  const userWithVehicles = await app.models.User.findOne();
+  expectType<VehicleEntity>(userWithVehicles.vehicles[0]);
+  expectType<string>(userWithVehicles.vehicles[0].licencePlate);
 };
 
 export default tests;
