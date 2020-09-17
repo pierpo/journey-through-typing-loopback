@@ -99,6 +99,12 @@ const tests = async () => {
   });
   expectType<VehicleEntity>(userWithVehicles.vehicles[0]);
   expectType<string>(userWithVehicles.vehicles[0].licencePlate);
+
+  expectError(
+    await app.models.User.findOne({
+      include: 'blablabla',
+    })
+  );
 };
 
 export default tests;
