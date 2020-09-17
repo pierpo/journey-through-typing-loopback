@@ -103,6 +103,9 @@ const tests = async () => {
       include: 'name',
     })
   );
+
+  // Accurate relations - get only relations that were specified
+  expectError(user.vehicles[0].licencePlate);
 };
 
 export default tests;
