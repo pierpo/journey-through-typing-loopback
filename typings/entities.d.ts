@@ -14,10 +14,9 @@ export interface UserEntityWithRelations {
 export interface UserModel
   extends LoopbackModel<UserEntity, UserEntityWithRelations> {}
 
-export type UserInstance = LoopbackInstance<
-  UserEntity,
-  UserEntityWithRelations
->;
+export type UserInstance<
+  R extends keyof UserEntityWithRelations | null = null
+> = LoopbackInstance<UserEntity, UserEntityWithRelations, R>;
 
 /* Vehicles */
 
