@@ -6,6 +6,7 @@ import {
   VehicleInstance,
   UserInstance,
   VehicleEntity,
+  BookingEntity,
 } from './entities';
 
 const app = new Loopback();
@@ -106,6 +107,22 @@ const tests = async () => {
 
   // Accurate relations - get only relations that were specified
   expectError(user.vehicles[0].licencePlate);
+
+  // Multiple relations
+  expectType<VehicleEntity>(
+    (
+      await app.models.User.findOne({
+        include: ['vehicles'],
+      })
+    ).vehicles[0]
+  );
+  const userWithVehiclesAndBookings = await app.models.User.findOne({
+    include: ['vehicles', 'bookings'],
+  });
+  expectType<BookingEntity>(userWithVehiclesAndBookings.bookings[0]);
+  expectType<string>(userWithVehiclesAndBookings.bookings[0].id);
+
+  expectError(userWithVehicles.bookings[0].id);
 };
 
 export default tests;
