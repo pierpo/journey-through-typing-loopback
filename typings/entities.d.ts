@@ -5,6 +5,7 @@ import { LoopbackInstance, LoopbackModel } from '.';
 export interface UserEntity {
   name: string;
   age: number;
+  vehicles: VehicleEntity[];
 }
 
 export interface UserModel extends LoopbackModel<UserEntity> {}
