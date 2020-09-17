@@ -24,5 +24,14 @@ export interface QueryFilterWithRelation<
   TEntityRelations,
   R extends keyof TEntityRelations
 > extends QueryFilter<TEntity> {
-  include?: R;
+  include?: R | [R];
+}
+
+export interface QueryFilterWith2Relations<
+  TEntity,
+  TEntityRelations,
+  R extends keyof TEntityRelations,
+  R2 extends keyof TEntityRelations
+> extends QueryFilter<TEntity> {
+  include?: [R, R2];
 }
