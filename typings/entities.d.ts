@@ -9,6 +9,7 @@ export interface UserEntity {
 
 export interface UserEntityWithRelations {
   vehicles: VehicleEntity[];
+  bookings: BookingEntity[];
 }
 
 export interface UserModel
@@ -32,4 +33,20 @@ export interface VehicleModel
 export type VehicleInstance = LoopbackInstance<
   VehicleEntity,
   VehicleEntityWithRelations
+>;
+
+/* Bookings */
+
+export interface BookingEntity {
+  id: string;
+}
+
+export interface BookingEntityWithRelations {}
+
+export interface BookingModel
+  extends LoopbackModel<BookingEntity, BookingEntityWithRelations> {}
+
+export type BookingInstance = LoopbackInstance<
+  BookingEntity,
+  BookingEntityWithRelations
 >;
