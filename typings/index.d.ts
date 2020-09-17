@@ -16,7 +16,7 @@ export type LoopbackInstance<
     update: (payload: Partial<TEntity>) => void;
   };
 
-export interface LoopbackModel<TEntity, TEntityRelations> {
+export interface LoopbackModel<TEntity, TEntityRelations, TRemoteMethods = {}> {
   find(
     filter?: QueryFilter<TEntity>
   ): Promise<LoopbackInstance<TEntity, TEntityRelations>[]>;
@@ -40,6 +40,10 @@ export interface LoopbackModel<TEntity, TEntityRelations> {
   findOne<R extends keyof TEntityRelations, R2 extends keyof TEntityRelations>(
     filter?: QueryFilterWith2Relations<TEntity, TEntityRelations, R, R2>
   ): Promise<LoopbackInstance<TEntity, TEntityRelations, R, R2>>;
+
+  remoteMethod<RemoteMethodKey extends keyof TRemoteMethods>(
+    name: RemoteMethodKey
+  ): void;
 }
 
 declare class Loopback {
