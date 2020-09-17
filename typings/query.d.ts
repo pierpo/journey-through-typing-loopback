@@ -17,5 +17,5 @@ type WhereClause<TEntity> = {
 
 export interface QueryFilter<TEntity> {
   where?: WhereClause<TEntity>;
-  include?: string;
+  include?: keyof TEntity;
 }
