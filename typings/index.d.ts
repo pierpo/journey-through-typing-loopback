@@ -16,7 +16,38 @@ export type LoopbackInstance<
     update: (payload: Partial<TEntity>) => void;
   };
 
-export interface LoopbackModel<TEntity, TEntityRelations, TRemoteMethods = {}> {
+/**
+ * From a typescript type, returns the string associated to the type that we'd want to declare to loopback
+ * Type number has to be declared using the string 'number' in loopback
+ */
+type ExtractLoopbackStringFromType<
+  T extends string | number | object | Array<any>
+> = T extends string
+  ? 'string'
+  : T extends number
+  ? 'number'
+  : T extends Array<any>
+  ? 'array'
+  : T extends object
+  ? 'object'
+  : never;
+
+/**
+ * Builds a remote method argument declaration
+ * { arg: 'argumentName', type: 'number' }
+ */
+type RemoteMethodArgumentDeclaration<
+  ParamType extends string | number | object | Array<any>
+> = {
+  arg: string;
+  type: ExtractLoopbackStringFromType<ParamType>;
+};
+
+export interface LoopbackModel<
+  TEntity,
+  TEntityRelations,
+  TRemoteMethods extends { [key: string]: (...args: any[]) => any } = {}
+> {
   find(
     filter?: QueryFilter<TEntity>
   ): Promise<LoopbackInstance<TEntity, TEntityRelations>[]>;
@@ -41,8 +72,26 @@ export interface LoopbackModel<TEntity, TEntityRelations, TRemoteMethods = {}> {
     filter?: QueryFilterWith2Relations<TEntity, TEntityRelations, R, R2>
   ): Promise<LoopbackInstance<TEntity, TEntityRelations, R, R2>>;
 
-  remoteMethod<RemoteMethodKey extends keyof TRemoteMethods>(
-    name: RemoteMethodKey
+  remoteMethod<TRemoteMethodKey extends keyof TRemoteMethods>(
+    name: TRemoteMethodKey,
+    args: {
+      http: {
+        verb: 'get' | 'post';
+        status: number;
+      };
+      accepts: [
+        RemoteMethodArgumentDeclaration<
+          Parameters<TRemoteMethods[TRemoteMethodKey]>[0]
+        >,
+        RemoteMethodArgumentDeclaration<
+          Parameters<TRemoteMethods[TRemoteMethodKey]>[1]
+        >
+      ];
+      returns: {
+        root: boolean;
+        type: 'number' | 'string' | 'object' | 'array';
+      };
+    }
   ): void;
 }
 
