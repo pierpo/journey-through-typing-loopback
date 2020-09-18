@@ -132,10 +132,49 @@ const tests = async () => {
 
   expectError(userWithVehicles.bookings[0].id);
 
-  // Declaring remote methods - no parameters but proper name
+  // Declaring remote methods
   app.models.User.addVehicle = (licencePlate: string, age: number) => {};
-  app.models.User.remoteMethod('addVehicle');
-  expectError(app.models.User.remoteMethod('addVehicleWithTypo'));
+  app.models.User.remoteMethod('addVehicle', {
+    http: { verb: 'post', status: 200 },
+    accepts: [
+      { arg: 'licencePlate', type: 'string' },
+      { arg: 'age', type: 'number' },
+    ],
+    returns: { root: true, type: 'number' },
+  });
+
+  expectError(
+    app.models.User.remoteMethod('addVehicle', {
+      http: { verb: 'post', status: 200 },
+      accepts: [
+        { arg: 'licencePlate', type: 'number' },
+        { arg: 'age', type: 'number' },
+      ],
+      returns: { root: true, type: 'number' },
+    })
+  );
+
+  expectError(
+    app.models.User.remoteMethod('addVehicle', {
+      http: { verb: 'post', status: 200 },
+      accepts: [
+        { arg: 'licencePlate', type: 'number' },
+        { arg: 'age', type: 'number' },
+      ],
+      returns: { root: true, type: 'number' },
+    })
+  );
+
+  expectError(
+    app.models.User.remoteMethod('addVehicleWithTypo', {
+      http: { verb: 'post', status: 200 },
+      accepts: [
+        { arg: 'licencePlate', type: 'string' },
+        { arg: 'age', type: 'number' },
+      ],
+      returns: { root: true, type: 'number' },
+    })
+  );
 };
 
 export default tests;
